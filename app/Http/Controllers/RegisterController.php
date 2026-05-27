@@ -23,12 +23,22 @@ class RegisterController extends Controller
         // A. Validar que no existan duplicados
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'email' => 'required|string|email:rfc,dns|max:255|unique:users',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+            ],
             'nombre_negocio' => 'required|string|max:255',
             'slug' => 'required|string|max:50|alpha_dash|unique:salons', // alpha_dash = solo letras, numeros y guiones
         ], [
             'email.unique' => 'Este correo ya está registrado.',
+            'email.email' => 'Ingresa un correo válido.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.regex' => 'La contraseña debe incluir mayúsculas, minúsculas y números.',
             'slug.unique' => 'Ese link (URL) ya está ocupado, intenta otro.',
             'slug.alpha_dash' => 'El link solo puede tener letras, números y guiones (sin espacios).'
         ]);

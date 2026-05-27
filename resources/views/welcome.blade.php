@@ -64,7 +64,7 @@
         /* Estilos Base */
         body { overflow-x: hidden; }
         .glass {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.6);
@@ -74,6 +74,8 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .revealed { opacity: 1; transform: translateY(0); }
 
         /* Efecto Sakura (Lluvia de flores) */
         .sakura-container {
@@ -94,9 +96,9 @@
         }
         @keyframes fall {
             0% { opacity: 0; top: -10%; transform: translateX(0) rotate(0deg); }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { opacity: 0; top: 110%; transform: translateX(20px) rotate(360deg); }
+            12% { opacity: 0.9; }
+            88% { opacity: 0.9; }
+            100% { opacity: 0; top: 110%; transform: translateX(24px) rotate(360deg); }
         }
 
         /* Scrollbar Personalizado */
@@ -179,6 +181,36 @@
         </nav>
     </aside>
 
+    @php
+        $pasos = [
+            ['titulo' => 'Crea tu salón', 'texto' => 'Configura servicios, horarios y políticas en minutos. Sin llamadas ni hojas de cálculo.', 'icon' => 'clipboard-check'],
+            ['titulo' => 'Comparte tu link', 'texto' => 'Tus clientas reservan 24/7 desde WhatsApp, Instagram o código QR.', 'icon' => 'share'],
+            ['titulo' => 'Automatiza recordatorios', 'texto' => 'Glosy envía confirmaciones y recordatorios para reducir inasistencias.', 'icon' => 'bell']
+        ];
+
+        $modulos = [
+            ['titulo' => 'Agenda inteligente', 'texto' => 'Vista diaria y semanal, bloqueos rápidos y control de duraciones.', 'icon' => 'calendar'],
+            ['titulo' => 'Clientes & historial', 'texto' => 'Ficha por clienta, notas, fotos y recurrencia.', 'icon' => 'user-circle'],
+            ['titulo' => 'Servicios & combos', 'texto' => 'Crea paquetes, establece precios y tiempos precisos.', 'icon' => 'sparkles'],
+            ['titulo' => 'Recordatorios', 'texto' => 'Notificaciones automáticas por WhatsApp y correo.', 'icon' => 'bell-alert'],
+            ['titulo' => 'Pagos & anticipos', 'texto' => 'Define anticipos para asegurar citas y reduce cancelaciones.', 'icon' => 'credit-card'],
+            ['titulo' => 'Reportes rápidos', 'texto' => 'Ingresa y ve ingresos diarios, servicios top y cancelaciones.', 'icon' => 'chart-bar'],
+        ];
+
+        $kpis = [
+            ['label' => 'Citas reservadas 24/7', 'value' => '+38%', 'desc' => 'cuando compartes tu link de reservas'],
+            ['label' => 'Reducción de inasistencias', 'value' => '-40%', 'desc' => 'usando recordatorios automáticos'],
+            ['label' => 'Ahorro en mensajes', 'value' => '2h/día', 'desc' => 'menos chats manuales por agenda llena'],
+        ];
+
+        $faqs = [
+            ['q' => '¿Necesito instalar algo?', 'a' => 'No. Glosy es 100% web, funciona en móvil y escritorio.'],
+            ['q' => '¿Puedo cobrar anticipos?', 'a' => 'Sí. Configura el monto y Glosy te ayuda a reducir cancelaciones.'],
+            ['q' => '¿Cómo llegan las clientas?', 'a' => 'Comparte tu link en WhatsApp, Instagram, Google Maps o imprime el QR.'],
+            ['q' => '¿Tengo soporte?', 'a' => 'Sí. Soporte por chat y guías rápidas dentro del panel.'],
+        ];
+    @endphp
+
     <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
         <section class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 relative z-10">
             
@@ -189,45 +221,48 @@
                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
                       <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-primary"></span>
                     </span>
-                    <span class="text-xs font-bold text-brand-dark uppercase tracking-wider">Nuevo en Jilotepec</span>
+                    <span class="text-xs font-bold text-brand-dark uppercase tracking-wider">Agenda 24/7 + recordatorios</span>
                 </div>
 
                 <h1 class="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold leading-[1.1] text-slate-900 tracking-tight">
-                    Tu agenda llena, <br>
+                    Software para salones,
                     <span class="text-gradient italic relative">
-                        sin estrés.
+                        con agenda llena.
                         <svg class="absolute -bottom-2 w-full h-3 text-brand-primary opacity-30" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="3" fill="none"/></svg>
                     </span>
                 </h1>
                 
                 <p class="text-lg text-slate-600 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                    Deja de responder mensajes a medianoche. <b>Glosy</b> es el asistente inteligente que gestiona citas, recordatorios y clientas por ti, las 24 horas.
+                    Glosy automatiza reservas, recordatorios y pagos con anticipos. Menos chats manuales, más tiempo para tus clientas.
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
                     <a href="{{ route('register') }}" class="px-8 py-4 bg-brand-primary text-white rounded-2xl font-bold text-lg shadow-xl shadow-pink-500/30 hover:bg-brand-dark hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3">
-                        Crear mi Salón
+                        Crear mi salón
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
                     </a>
+                    <a href="{{ route('login') }}" class="px-8 py-4 bg-white text-brand-primary border border-brand-primary rounded-2xl font-bold text-lg shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2">
+                        Ver demo
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </a>
                 </div>
 
-                <div class="pt-6 flex items-center justify-center lg:justify-start gap-4 text-sm text-slate-500 font-medium">
-                    <div class="flex -space-x-3">
-                        <div class="w-10 h-10 rounded-full border-2 border-white bg-gray-200 bg-[url('https://i.pravatar.cc/100?img=1')] bg-cover"></div>
-                        <div class="w-10 h-10 rounded-full border-2 border-white bg-gray-200 bg-[url('https://i.pravatar.cc/100?img=5')] bg-cover"></div>
-                        <div class="w-10 h-10 rounded-full border-2 border-white bg-gray-200 bg-[url('https://i.pravatar.cc/100?img=9')] bg-cover"></div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+                    <div class="flex items-center gap-2 bg-white/70 border border-pink-100 rounded-xl px-4 py-3 shadow-sm">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <div class="text-sm text-slate-700"><span class="font-semibold">Recordatorios</span> automáticos</div>
                     </div>
-                    <div>
-                        <p class="text-slate-800 font-bold">Confianza Rodnix</p>
-                        <div class="flex text-yellow-400 gap-0.5">
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        </div>
+                    <div class="flex items-center gap-2 bg-white/70 border border-pink-100 rounded-xl px-4 py-3 shadow-sm">
+                        <span class="w-2.5 h-2.5 rounded-full bg-brand-primary"></span>
+                        <div class="text-sm text-slate-700"><span class="font-semibold">Anticipos</span> para asegurar citas</div>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white/70 border border-pink-100 rounded-xl px-4 py-3 shadow-sm">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                        <div class="text-sm text-slate-700"><span class="font-semibold">Link</span> compartible 24/7</div>
                     </div>
                 </div>
             </div>
@@ -315,11 +350,7 @@
             </div>
         </section>
 
-        <div class="py-6">
-            <x-ad-banner />
-        </div>
-
-        <section id="features" class="mt-8 border-t border-pink-100/60 pt-16">
+        <section id="features" class="mt-8 border-t border-pink-100/60 pt-16 reveal">
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-serif font-bold text-slate-900 mb-3">¿Por qué elegir Glosy?</h2>
                 <p class="text-slate-500 max-w-2xl mx-auto">Diseñado específicamente para manicuristas que quieren crecer sin trabajar más horas.</p>
@@ -353,14 +384,125 @@
                         </svg>
                     </div>
                     <h3 class="font-bold text-xl text-slate-800 mb-3 font-serif">Finanzas Claras</h3>
-                    <p class="text-slate-500 leading-relaxed text-sm">Visualiza cuánto ganas al día, qué servicios vendes más y controla tus gastos fácilmente.</p>
+                 <p class="text-slate-500 leading-relaxed text-sm">Visualiza cuánto ganas al día, qué servicios vendes más y controla tus gastos fácilmente.</p>
                 </div>
             </div>
         </section>
 
-        <div class="py-12">
-            <x-ad-banner />
-        </div>
+        <section id="como-funciona" class="mt-16 lg:mt-20 reveal">
+            <div class="flex flex-col lg:flex-row lg:items-center gap-10">
+                <div class="lg:w-1/3 space-y-3">
+                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-brand-primary">Paso a paso</p>
+                    <h3 class="text-3xl font-serif font-bold text-slate-900">Cómo funciona Glosy</h3>
+                    <p class="text-slate-500">Activa tu agenda, comparte tu link y deja que el sistema haga el seguimiento.</p>
+                </div>
+                <div class="lg:w-2/3 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    @foreach($pasos as $i => $paso)
+                        <div class="p-6 bg-white rounded-2xl border border-pink-50 shadow-sm hover:shadow-md transition-all duration-300">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="w-10 h-10 rounded-full bg-brand-light text-brand-dark font-bold flex items-center justify-center">{{ $i + 1 }}</span>
+                                <p class="text-sm font-semibold text-brand-primary flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    {{ $paso['titulo'] }}
+                                </p>
+                            </div>
+                            <p class="text-slate-600 text-sm leading-relaxed">{{ $paso['texto'] }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        <section id="modulos" class="mt-16 lg:mt-20 reveal">
+            <div class="flex items-center justify-between flex-wrap gap-3 mb-8">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-brand-primary">Sistema</p>
+                    <h3 class="text-3xl font-serif font-bold text-slate-900">Módulos clave</h3>
+                    <p class="text-slate-500">Todo lo que necesitas para operar y crecer sin depender de hojas de cálculo.</p>
+                </div>
+                <div class="flex gap-3 text-sm">
+                    <a href="{{ route('register') }}" class="px-4 py-2 rounded-xl bg-brand-primary text-white font-semibold shadow-md shadow-pink-500/30 hover:bg-brand-dark transition">Crear mi salón</a>
+                    <a href="{{ route('login') }}" class="px-4 py-2 rounded-xl border border-brand-primary text-brand-primary font-semibold hover:bg-pink-50 transition">Ver demo</a>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($modulos as $modulo)
+                    <div class="p-6 bg-white rounded-2xl border border-pink-50 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                        <div class="w-12 h-12 rounded-xl bg-pink-50 text-brand-primary flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                @if($modulo['icon'] === 'calendar')
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                @elseif($modulo['icon'] === 'user-circle')
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 14c-3.866 0-7 1.79-7 4v1h14v-1c0-2.21-3.134-4-7-4zm0-2a4 4 0 100-8 4 4 0 000 8z" />
+                                @elseif($modulo['icon'] === 'sparkles')
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z M5 17l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2z M17 16l.8 2.2L20 19l-2.2.8L17 22l-.8-2.2L14 19l2.2-.8L17 16z" />
+                                @elseif($modulo['icon'] === 'bell-alert')
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                @elseif($modulo['icon'] === 'credit-card')
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 11h18M5 15h6m-8 4h14a2 2 0 002-2V7a2 2 0 00-2-2H3a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                @elseif($modulo['icon'] === 'chart-bar')
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 19h16M7 10v6m5-9v9m5-5v5" />
+                                @endif
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-lg text-slate-800 mb-2">{{ $modulo['titulo'] }}</h4>
+                        <p class="text-slate-500 text-sm leading-relaxed">{{ $modulo['texto'] }}</p>
+                    </div>
+                @endforeach
+            </div>
+        </section>
+
+        <section id="kpis" class="mt-16 lg:mt-20 reveal">
+            <div class="text-center mb-8">
+                <p class="text-xs font-bold uppercase tracking-[0.2em] text-brand-primary">Resultados</p>
+                <h3 class="text-3xl font-serif font-bold text-slate-900">Impacto rápido</h3>
+                <p class="text-slate-500">Basado en salones que usan recordatorios y link de reservas.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                @foreach($kpis as $kpi)
+                    <div class="p-6 bg-white rounded-2xl border border-pink-50 shadow-sm text-center hover:shadow-lg transition-all duration-300">
+                        <p class="text-4xl font-serif font-bold text-brand-primary mb-2">{{ $kpi['value'] }}</p>
+                        <p class="font-semibold text-slate-800">{{ $kpi['label'] }}</p>
+                        <p class="text-slate-500 text-sm">{{ $kpi['desc'] }}</p>
+                    </div>
+                @endforeach
+            </div>
+        </section>
+
+        <section id="faq" class="mt-16 lg:mt-20 reveal">
+            <div class="flex flex-col lg:flex-row lg:items-start gap-10">
+                <div class="lg:w-1/3 space-y-3">
+                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-brand-primary">FAQ</p>
+                    <h3 class="text-3xl font-serif font-bold text-slate-900">Resolvemos tus dudas</h3>
+                    <p class="text-slate-500">Si necesitas algo más, escríbenos dentro del panel.</p>
+                </div>
+                <div class="lg:w-2/3 space-y-4">
+                    @foreach($faqs as $faq)
+                        <details class="group bg-white border border-pink-50 rounded-2xl p-4 hover:shadow-md transition-all duration-300">
+                            <summary class="flex items-center justify-between cursor-pointer text-slate-800 font-semibold">
+                                <span>{{ $faq['q'] }}</span>
+                                <svg class="w-5 h-5 text-brand-primary transition-transform duration-200 group-open:rotate-45" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                            </summary>
+                            <p class="mt-3 text-slate-600 text-sm leading-relaxed">{{ $faq['a'] }}</p>
+                        </details>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        <section class="mt-16 lg:mt-20 reveal">
+            <div class="glass border border-pink-100/60 p-6 md:p-8 rounded-3xl flex flex-col md:flex-row items-center gap-6 shadow-lg shadow-pink-500/10">
+                <div class="flex-1">
+                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-brand-primary">Listo en minutos</p>
+                    <h3 class="text-2xl md:text-3xl font-serif font-bold text-slate-900 mb-2">Activa tu agenda y reduce inasistencias hoy</h3>
+                    <p class="text-slate-600">Configura recordatorios, anticipos y comparte tu link. Tu clientela se autogestiona y tú recuperas tiempo.</p>
+                </div>
+                <div class="flex gap-3 w-full md:w-auto">
+                    <a href="{{ route('register') }}" class="flex-1 md:flex-none px-6 py-3 rounded-2xl bg-brand-primary text-white font-semibold shadow-lg shadow-pink-500/30 hover:bg-brand-dark transition text-center">Crear mi salón</a>
+                    <a href="{{ route('login') }}" class="flex-1 md:flex-none px-6 py-3 rounded-2xl border-2 border-brand-primary text-brand-primary font-semibold hover:bg-pink-50 transition text-center">Ver demo</a>
+                </div>
+            </div>
+        </section>
     </main>
     
     <footer class="bg-white border-t border-slate-100 pt-16 pb-8">
@@ -393,6 +535,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            /* --- Preferencias de movimiento reducido --- */
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
             /* --- Lógica del Menú Móvil --- */
             const menuBtn = document.getElementById('menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -427,16 +572,42 @@
                 });
             }
 
-            // Cerrar menú al hacer click en enlaces
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', toggleMenu);
-            });
+            if (mobileMenu) {
+                // Cerrar menú al hacer click en enlaces
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', toggleMenu);
+                });
 
-            /* --- Script de Lluvia de Sakura --- */
+                // Cerrar con tecla Escape
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && !mobileMenu.classList.contains('translate-x-full')) {
+                        toggleMenu();
+                    }
+                });
+            }
+
+            /* --- Animación on-scroll (reveal) --- */
+            const revealEls = document.querySelectorAll('.reveal');
+            if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.18 });
+                revealEls.forEach(el => observer.observe(el));
+            } else {
+                revealEls.forEach(el => el.classList.add('revealed'));
+            }
+
+            /* --- Script de Lluvia de Sakura (optimizado) --- */
             const sakuraContainer = document.getElementById('sakura-container');
-            const petalCount = 15; // Cantidad de pétalos simultáneos (bajo para no alentar PC/Móvil)
+            const petalCount = prefersReducedMotion ? 0 : 10; // Menos pétalos para rendimiento
 
             function createPetal() {
+                if (!sakuraContainer) return;
                 const petal = document.createElement('div');
                 petal.classList.add('petal');
                 
@@ -448,12 +619,12 @@
                 // Posición horizontal aleatoria
                 petal.style.left = Math.random() * 100 + 'vw';
                 
-                // Duración de caída aleatoria (entre 6s y 12s)
-                const duration = Math.random() * 6 + 6 + 's';
+                // Duración de caída aleatoria (entre 6s y 11s)
+                const duration = Math.random() * 5 + 6 + 's';
                 petal.style.animationDuration = duration;
                 
                 // Retraso aleatorio
-                petal.style.animationDelay = Math.random() * 5 + 's';
+                petal.style.animationDelay = Math.random() * 4 + 's';
 
                 sakuraContainer.appendChild(petal);
 
@@ -466,7 +637,7 @@
 
             // Iniciar la lluvia
             for (let i = 0; i < petalCount; i++) {
-                setTimeout(createPetal, Math.random() * 3000);
+                setTimeout(createPetal, Math.random() * 2000);
             }
         });
     </script>

@@ -9,9 +9,16 @@ use Illuminate\Support\Facades\Http;
 
 class GoogleAuthController extends Controller
 {
-    $clientId = config('services.google.client_id');
-$clientSecret = config('services.google.client_secret');
-$redirectUri = config('services.google.redirect');
+    private string $clientId;
+    private string $clientSecret;
+    private string $redirectUri;
+
+    public function __construct()
+    {
+        $this->clientId = config('services.google.client_id');
+        $this->clientSecret = config('services.google.client_secret');
+        $this->redirectUri = config('services.google.redirect');
+    }
 
     public function redirect(Request $request)
     {
@@ -67,16 +74,16 @@ $redirectUri = config('services.google.redirect');
             $userResponse = Http::withToken($tokenData['access_token'])->get('https://www.googleapis.com/oauth2/v1/userinfo');
             $googleUser = $userResponse->json();
 
-            if (!isset($googleUser['email'])) {
+            if (!isset($googleUser['email']) || !filter_var($googleUser['email'], FILTER_VALIDATE_EMAIL)) {
                 return redirect('/login-cliente')->with('error', 'Error obteniendo email.');
             }
 
-            // 4. GUARDAR O ACTUALIZAR
+            // 4. GUARDAR O ACTUALIZAR (email verificado por Google)
             $client = Client::updateOrCreate(
                 ['email' => $googleUser['email']],
                 [
-                    'nombre' => $googleUser['name'],
-                    'google_id' => $googleUser['id'],
+                    'nombre' => $googleUser['name'] ?? ($googleUser['given_name'] ?? 'Usuario Google'),
+                    'google_id' => $googleUser['id'] ?? null,
                     'avatar' => $googleUser['picture'] ?? null,
                 ]
             );

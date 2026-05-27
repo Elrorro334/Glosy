@@ -32,7 +32,10 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::post('/login', function (Request $request) {
-    $credentials = $request->validate(['email' => 'required|email', 'password' => 'required']);
+    $credentials = $request->validate([
+        'email' => 'required|email:rfc,dns',
+        'password' => 'required|string|min:8',
+    ]);
     
     // Intenta loguear en tabla 'users'
     if (Auth::guard('web')->attempt($credentials, true)) { 
@@ -41,8 +44,8 @@ Route::post('/login', function (Request $request) {
         if ($user->email === 'contacto@rodnix.com.mx') return redirect()->route('superadmin.index');
         return redirect()->route('admin.dashboard');
     }
-    return back()->withErrors(['email' => 'Credenciales incorrectas']);
-})->name('login.post');
+    return back()->withErrors(['email' => 'Credenciales incorrectas'])->withInput(['email']);
+})->middleware('throttle:5,1')->name('login.post');
 
 // --- LOGIN CLIENTAS (Solo vista, la lógica es Google) ---
 Route::get('/login-cliente', function () {
@@ -65,7 +68,7 @@ Route::post('/logout', function (Request $request) {
 
 // --- REGISTRO Y PASSWORD ---
 Route::get('/register', [RegisterController::class, 'show'])->name('register');
-Route::post('/register', [RegisterController::class, 'register'])->name('register.post');
+Route::post('/register', [RegisterController::class, 'register'])->middleware('throttle:3,1')->name('register.post');
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
